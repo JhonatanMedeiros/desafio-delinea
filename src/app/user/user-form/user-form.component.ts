@@ -66,36 +66,37 @@ export class UserFormComponent implements OnInit, OnDestroy {
     this.userForm = this.formBuilder.group({
       id: [this.user.id],
       full_name: [this.user.full_name, [
-        Validators.required,
-        Validators.minLength(3),
-        Validators.maxLength(24)]
+        // Validators.required,
+        // Validators.minLength(3),
+        // Validators.maxLength(24)
+      ]
       ],
       cpf: [this.user.cpf, [
-        Validators.required,
+        // Validators.required,
         // Validators.minLength(4),
         // Validators.maxLength(24)
         ]
       ],
       rg: [this.user.rg, [
-        Validators.required,
+        // Validators.required,
         // Validators.minLength(4),
         // Validators.maxLength(24)
         ]
       ],
       birth_date: [this.user.birth_date, [
-        Validators.required,
+        // Validators.required,
         // Validators.minLength(4),
         // Validators.maxLength(24)
       ]
       ],
       phone: [this.user.phone, [
-        Validators.required,
+        // Validators.required,
         // Validators.maxLength(15),
         // Validators.pattern("\([0-9]{2}\) [0-9]{4,6}-[0-9]{3,4}$")
       ]
       ],
       username: [this.user.username, [
-        Validators.required,
+        // Validators.required,
         // Validators.minLength(4),
         // Validators.maxLength(24)
       ]
@@ -106,8 +107,8 @@ export class UserFormComponent implements OnInit, OnDestroy {
       ],
       password: [this.user.password, [
         Validators.required,
-        Validators.minLength(4),
-        Validators.maxLength(24)
+        // Validators.minLength(4),
+        // Validators.maxLength(24)
       ]
       ],
     });

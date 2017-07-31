@@ -9,8 +9,7 @@ import { Observable } from 'rxjs/Rx';
 @Injectable()
 export class UserService {
 
-  // private url = 'http://jsonplaceholder.typicode.com/users';
-  private url = 'https://delineaapi.herokuapp.com:443/candidate';
+  private url = 'https://delineaapi.herokuapp.com/candidate/';
 
 
   constructor(private http: Http) {
@@ -43,18 +42,14 @@ export class UserService {
   }
 
   private getUserUrl(id) {
-    return this.url + '/' + id;
+    return this.url + id;
   }
 
   private getHearders() {
 
-    // const headers = new Headers();
-    // headers.append('Content-Type', 'application/json');
     const headers = new Headers({ 'Content-Type': 'application/json' });
-    // headers.append('authentication', `3123123123`);
 
     const options = new RequestOptions({ headers: headers });
-    console.log(options)
     return options;
   }
 
