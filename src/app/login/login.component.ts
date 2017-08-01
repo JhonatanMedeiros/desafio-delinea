@@ -2,7 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { Router, ActivatedRoute } from '@angular/router';
 
-import { LoginUser } from './model/loginUser';
+import { LoginUser } from './_model/loginUser';
+import { LoginService } from './_service/login.service';
 
 @Component({
   selector: 'app-login',
@@ -13,31 +14,25 @@ export class LoginComponent implements OnInit {
 
   title = 'Prova Delinea';
   userLogin: LoginUser = new LoginUser();
-  userLoginForm: FormGroup;
 
   constructor(
     private route: ActivatedRoute,
-    private formBuilder: FormBuilder
+    private loginService: LoginService
   ) { }
 
   ngOnInit() {
-    this.buildForm()
   }
 
-  buildForm() {
-
-    this.userLoginForm = this.formBuilder.group({
-      username: [this.userLogin.username, [
-        Validators.required, ]
-      ],
-      password: [this.userLogin.password, [
-        Validators.required]
-      ],
-    });
-
-  }
 
   login() {
+
+    this.loginService.fazerLogin(this.userLogin).subscribe(res => {
+      console.log(res);
+    }, err => {
+      console.log(err)
+      alert('Error ao fazer o login')
+    })
+
     console.log(this.userLogin)
   }
 

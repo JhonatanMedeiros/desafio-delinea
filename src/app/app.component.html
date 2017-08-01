@@ -17,7 +17,9 @@
         <li routerLinkActive="active"><a routerLink="/user">Usuarios <span class="sr-only"></span></a></li>
       </ul>
       <ul class="nav navbar-nav navbar-right">
-        <li routerLinkActive="active"><a routerLink="/login">Login</a></li>
+        <li>
+          <button type="button" routerLink="/login" class="btn btn-primary navbar-btn">Login</button>
+        </li>
       </ul>
     </div><!-- /.navbar-collapse -->
   </div><!-- /.container-fluid -->
@@ -26,25 +28,7 @@
 
 <div class="container">
     <!-- Page Content goes here -->
-
   <router-outlet></router-outlet>
-</div>
-
-
-
-<div class="modal fade" id="modalLoader" data-backdrop="static" data-keyboard="false" tabindex="-1" role="dialog" aria-hidden="true" style="padding-top:15%; overflow-y:visible;">
-  <div class="modal-dialog modal-m">
-    <div class="modal-content">
-      <div class="modal-header"><h3 style="margin:0;"></h3>
-      </div>
-      <div class="modal-body">
-        <div class="progress progress-striped active" style="margin-bottom:0;">
-          <div class="progress-bar" style="width: 100%">
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
 </div>
 
 

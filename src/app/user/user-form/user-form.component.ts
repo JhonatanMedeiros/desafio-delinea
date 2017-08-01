@@ -1,12 +1,13 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
-import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { Router, ActivatedRoute } from '@angular/router';
 
-import { UserService } from '../service/user.service';
-import { User } from '../model/user';
+import { UserService } from '../_service/user.service';
+import { User } from '../_model/user';
 import { Subscription } from 'rxjs/Subscription';
 
 
+import 'jquery'
+import 'jquery-mask-plugin'
 
 @Component({
   selector: 'app-user-form',
@@ -15,44 +16,39 @@ import { Subscription } from 'rxjs/Subscription';
 })
 export class UserFormComponent implements OnInit, OnDestroy {
 
-  titulo = '';
+  title = '';
+  breadcrumb = '';
   user: User = new User();
-  userForm: FormGroup;
 
   idSubscribe: Subscription;
 
   constructor(
     private route: ActivatedRoute,
-    private router: Router,
     private userService: UserService,
-    private formBuilder: FormBuilder
-  ) {
-    this.buildForm();
-
+    private router: Router ) {
   }
 
   ngOnInit() {
-
-
+    $('#cpf').mask('000.000.000-00', {reverse: true});
+    $('#tel').mask('(00) 00000-0000');
 
     this.idSubscribe = this.route.params.subscribe(params => {
       const id = params['id'];
 
-      this.titulo = id ? 'Edição de Candidatos ' : 'Cadastro de Candidato';
-
-      if (!id) {
-        return;
-      }
+      this.title = id ? 'Edição de Candidatos ' : 'Cadastro de Candidato';
 
 
-      this.userService.getUser(id)
-        .subscribe(
-          user => { this.user = user; console.log(this.user)},
-          response => {
-            if (response.status === 404) {
-              this.router.navigate(['/user'])
-            }
-          });
+      if (id) {
+        this.userService.getUser(id)
+          .subscribe(
+            user => {
+              this.user = user;
+              this.breadcrumb = id ? (this.user.full_name || 'Usuario sem nome'): '';
+            },
+            err => { console.log(err)});
+      }else {this.breadcrumb = 'Novo'}
+
+
     });
 
   }
@@ -61,81 +57,22 @@ export class UserFormComponent implements OnInit, OnDestroy {
     this.idSubscribe.unsubscribe()
   }
 
-  buildForm() {
-
-    this.userForm = this.formBuilder.group({
-      id: [this.user.id],
-      full_name: [this.user.full_name, [
-        // Validators.required,
-        // Validators.minLength(3),
-        // Validators.maxLength(24)
-      ]
-      ],
-      cpf: [this.user.cpf, [
-        // Validators.required,
-        // Validators.minLength(4),
-        // Validators.maxLength(24)
-        ]
-      ],
-      rg: [this.user.rg, [
-        // Validators.required,
-        // Validators.minLength(4),
-        // Validators.maxLength(24)
-        ]
-      ],
-      birth_date: [this.user.birth_date, [
-        // Validators.required,
-        // Validators.minLength(4),
-        // Validators.maxLength(24)
-      ]
-      ],
-      phone: [this.user.phone, [
-        // Validators.required,
-        // Validators.maxLength(15),
-        // Validators.pattern("\([0-9]{2}\) [0-9]{4,6}-[0-9]{3,4}$")
-      ]
-      ],
-      username: [this.user.username, [
-        // Validators.required,
-        // Validators.minLength(4),
-        // Validators.maxLength(24)
-      ]
-      ],
-      email: [this.user.email, [
-        Validators.required,
-        Validators.pattern("[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?")]
-      ],
-      password: [this.user.password, [
-        Validators.required,
-        // Validators.minLength(4),
-        // Validators.maxLength(24)
-      ]
-      ],
-    });
-
-  }
-
-
   salvar() {
-
-    console.log('salvar')
-    console.log(this.user)
     if (this.user.id) {
       this.userService.updateUser(this.user).subscribe(
-        res => {
-          console.log(res)
-        },
+        res => {this.router.navigate(['/user'])},
         error => {
-          console.log(error)
+          console.log(error);
+          alert('Error ao salvar');
         })
     } else {
       this.userService.addUser(this.user).subscribe(
         res => {
-          console.log(res)
-          alert('Candidato salvo com sucesso')
+          alert('Candidato salvo com sucesso');
+          this.router.navigate(['/user']);
         },
           error => {
-          console.log(error)
+          console.log(error);
             alert('Error ao salvar')
         })
     }

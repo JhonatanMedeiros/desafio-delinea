@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import { UserService } from './service/user.service'
-import { User } from './model/user';
-import { AppUtilService } from '../util/app-util.service';
+
+import { UserService } from './_service/user.service'
+import { User } from './_model/user';
 
 
 @Component({
@@ -12,28 +12,37 @@ import { AppUtilService } from '../util/app-util.service';
 export class UserComponent implements OnInit {
 
   private users: User[] = [];
+  public carregando = {
+    show: false,
+    msg: 'Carregando...'
+  };
 
-  constructor(private userSerive: UserService, public appUtil: AppUtilService) { }
+  constructor(private userSerive: UserService) { }
 
   ngOnInit() {
+
+    this.carregando.show = true;
 
     this.userSerive.getUsers()
       .subscribe(data => {
         this.users = data;
         console.log(this.users);
-        this.appUtil.loader('hide');
+        this.carregando.show = false;
       }, err => {
         console.log(err);
-        this.appUtil.loader('hide');
+        this.carregando.show = true;
+        this.carregando.msg = 'Ocorreu um error no servidor'
       });
 
-    this.appUtil.loader('show');
 
   }
 
 
   deleteUser(user) {
-    if (confirm('Deseja remover ' + user.full_name + '?')) {
+
+    let alertConfirm = confirm('Deseja remover ' + user.full_name + '?');
+
+    if (alertConfirm == true) {
       const index = this.users.indexOf(user);
       this.users.splice(index, 1);
 
@@ -41,7 +50,6 @@ export class UserComponent implements OnInit {
         .subscribe(suss => console.log(suss),
           err => {
             alert('Não foi possivel remover.');
-            // Revert the view back to its original state
             this.users.splice(index, 0, user);
           });
     }

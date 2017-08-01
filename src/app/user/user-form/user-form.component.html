@@ -1,59 +1,59 @@
 
 <ol class="breadcrumb">
-  <li><a href="#">Home</a></li>
-  <li><a href="#">Library</a></li>
-  <li class="active">Data</li>
+  <li><a routerLink="/home">Home</a></li>
+  <li><a routerLink="/user">Usuarios</a></li>
+  <li class="active">{{breadcrumb}}</li>
 </ol>
 
 
 <div class="row col-sm-12">
   <div class="panel panel-default ">
     <div class="panel-heading">
-      <h3 class="panel-title">{{titulo}}</h3>
+      <h3 class="panel-title">{{title}}</h3>
     </div>
     <div class="panel-body">
 
     <div class="row">
 
-      <form [formGroup]="userForm" (submit)="salvar()">
+      <form #userF="ngForm" (submit)="userF.form.valid && salvar()">
 
         <div class="col-lg-6 col-xs-12">
 
-          <div class="form-group has-feedback">
+          <div class="form-group has-feedback" [ngClass]="{ 'has-error': userF.submitted && !full_name.valid }">
             <label class="control-label" for="nome">Nome Completo</label>
-            <input type="text" formControlName="full_name" class="form-control" id="nome"
-                   [(ngModel)]="user.full_name" placeholder="Digite seu nome completo">
+            <input type="text" name="full_name" class="form-control" id="nome" required
+                   [(ngModel)]="user.full_name" #full_name="ngModel"
+                   placeholder="Digite seu nome completo">
+            <div *ngIf="userF.submitted && !full_name.valid" class="help-block">Nome é obrigatorio</div>
+            <span *ngIf="userF.submitted && !full_name.valid" class="glyphicon glyphicon-alert form-control-feedback" aria-hidden="true"></span>
 
-            <div *ngIf="!userForm.controls['full_name'].valid && userForm.controls['full_name'].touched" class="alert alert-danger">
-              Nome é um campo obrigatorio.
-            </div>
           </div>
 
-          <div class="form-group has-feedback">
-            <label class="control-label" for="email">E-mail <span style="color: red">*</span></label>
-            <input type="email" formControlName="email" class="form-control" id="email"
-                   [(ngModel)]="user.email" placeholder="Digite seu e-mail">
-            <div *ngIf="!userForm.controls['email'].valid && userForm.controls['email'].touched" class="alert alert-danger">
-              E-mail é um campo obrigatorio.
-            </div>
+          <div class="form-group has-feedback" [ngClass]="{ 'has-error': userF.submitted && !email.valid }">
+            <label class="control-label" for="email">E-mail</label>
+            <input type="email" name="email" class="form-control" id="email" required
+                   [(ngModel)]="user.email" #email="ngModel"
+                   placeholder="Digite seu e-mail" email>
+            <div *ngIf="userF.submitted && !email.valid" class="help-block">Email é obrigatorio</div>
+            <span *ngIf="userF.submitted && !email.valid" class="glyphicon glyphicon-alert form-control-feedback" aria-hidden="true"></span>
           </div>
 
-          <div class="form-group has-feedback">
-            <label class="control-label" for="pass">Senha <span style="color: red">*</span></label>
-            <input type="password" formControlName="password" class="form-control" id="pass"
-                   [(ngModel)]="user.password" placeholder="Digite sua senha">
-            <div *ngIf="!userForm.controls['password'].valid && userForm.controls['password'].touched" class="alert alert-danger">
-              Senha é um campo obrigatorio.
-            </div>
+          <div class="form-group has-feedback" [ngClass]="{ 'has-error': userF.submitted && !password.valid }">
+            <label class="control-label" for="pass">Senha</label>
+            <input type="password" name="password" class="form-control" id="pass" required
+                   [(ngModel)]="user.password" #password="ngModel"
+                   placeholder="Digite sua senha">
+            <div *ngIf="userF.submitted && !password.valid" class="help-block">Senha é obrigatorio</div>
+            <span *ngIf="userF.submitted && !password.valid" class="glyphicon glyphicon-alert form-control-feedback" aria-hidden="true"></span>
           </div>
 
-          <div class="form-group has-feedback">
+          <div class="form-group has-feedback" [ngClass]="{ 'has-error': userF.submitted && !phone.valid }">
             <label class="control-label" for="tel">Telefone</label>
-            <input type="tel" formControlName="phone" class="form-control" id="tel"
-                   [(ngModel)]="user.phone" placeholder="Digite seu telefone">
-            <div *ngIf="!userForm.controls['phone'].valid && userForm.controls['phone'].touched" class="alert alert-danger">
-              Telefone é um campo obrigatorio.
-            </div>
+            <input type="text" name="phone" class="form-control" id="tel"
+                   [(ngModel)]="user.phone" #phone="ngModel" required
+                   placeholder="Digite seu telefone" minlength="15">
+            <div *ngIf="userF.submitted && !phone.valid" class="help-block">Telefone é obrigatorio</div>
+            <span *ngIf="userF.submitted && !phone.valid" class="glyphicon glyphicon-alert form-control-feedback" aria-hidden="true"></span>
           </div>
 
         </div>
@@ -63,41 +63,41 @@
 
         <div class="col-lg-6 col-xs-12">
 
-          <div class="form-group has-feedback">
+          <div class="form-group has-feedback" [ngClass]="{ 'has-error': userF.submitted && !cpf.valid }">
             <label class="control-label" for="cpf">CPF</label>
-            <input type="number" formControlName="cpf" class="form-control" id="cpf"
-                   [(ngModel)]="user.cpf" placeholder="Digite seu CPF">
-            <div *ngIf="!userForm.controls['cpf'].valid && userForm.controls['cpf'].touched" class="alert alert-danger">
-              CPF é um campo obrigatorio.
-            </div>
+            <input type="text" name="cpf" class="form-control" id="cpf"
+                   [(ngModel)]="user.cpf" #cpf="ngModel" required
+                   placeholder="Digite seu CPF" minlength="14">
+            <div *ngIf="userF.submitted && !cpf.valid" class="help-block">CPF é obrigatorio</div>
+            <span *ngIf="userF.submitted && !cpf.valid" class="glyphicon glyphicon-alert form-control-feedback" aria-hidden="true"></span>
           </div>
 
-          <div class="form-group has-feedback" >
+          <div class="form-group has-feedback" [ngClass]="{ 'has-error': userF.submitted && !rg.valid }">
             <label class="control-label" for="rg">RG</label>
-            <input type="number" formControlName="rg" class="form-control" id="rg"
-                   [(ngModel)]="user.rg" placeholder="Digite seu RG" >
-            <div *ngIf="!userForm.controls['rg'].valid && userForm.controls['rg'].touched" class="alert alert-danger">
-              RG é um campo obrigatorio.
-            </div>
+            <input type="text" name="rg" class="form-control" id="rg"
+                   [(ngModel)]="user.rg" #rg="ngModel" required
+                   placeholder="Digite seu RG">
+            <div *ngIf="userF.submitted && !rg.valid" class="help-block">RG é obrigatorio</div>
+            <span *ngIf="userF.submitted && !rg.valid" class="glyphicon glyphicon-alert form-control-feedback" aria-hidden="true"></span>
           </div>
 
-          <div class="form-group has-feedback">
+          <div class="form-group has-feedback" [ngClass]="{ 'has-error': userF.submitted && !birth_date.valid }">
             <label class="control-label" for="data">Data de Nascimento</label>
-            <input type="date" formControlName="birth_date" class="form-control" id="data"
-                   [(ngModel)]="user.birth_date" placeholder="Digite sua data de nascimento">
-            <div *ngIf="!userForm.controls['birth_date'].valid && userForm.controls['birth_date'].touched" class="alert alert-danger">
-              Data é um campo obrigatorio.
-            </div>
+            <input type="date" name="birth_date" class="form-control" id="data"
+                   [(ngModel)]="user.birth_date" #birth_date="ngModel" required
+                   placeholder="Digite sua data de nascimento" minlength="10" maxlength="10">
+            <div *ngIf="userF.submitted && !birth_date.valid" class="help-block">Data de Nascimento é obrigatorio</div>
+            <span *ngIf="userF.submitted && !birth_date.valid" class="glyphicon glyphicon-alert form-control-feedback" aria-hidden="true"></span>
           </div>
 
 
-          <div class="form-group has-feedback">
+          <div class="form-group has-feedback" [ngClass]="{ 'has-error': userF.submitted && !username.valid }">
             <label class="control-label" for="user">Usuario</label>
-            <input type="text" formControlName="username" class="form-control" id="user"
-                   [(ngModel)]="user.username" placeholder="Digite seu usuario">
-            <div *ngIf="!userForm.controls['username'].valid && userForm.controls['username'].touched" class="alert alert-danger">
-              Usuario é um campo obrigatorio.
-            </div>
+            <input type="text" name="username" class="form-control" id="user"
+                   [(ngModel)]="user.username" #username="ngModel" required
+                   placeholder="Digite seu usuario">
+            <div *ngIf="userF.submitted && !username.valid" class="help-block">Usuario é obrigatorio</div>
+            <span *ngIf="userF.submitted && !username.valid" class="glyphicon glyphicon-alert form-control-feedback" aria-hidden="true"></span>
           </div>
 
         </div>
@@ -106,7 +106,7 @@
 
           <div class="form-group text-right">
             <button type="button" class="btn btn-default" routerLink="/user">Voltar</button>
-            <button type="submit" class="btn btn-primary" [disabled]="!userForm.valid">Salvar</button>
+            <button type="submit" class="btn btn-primary">Salvar</button>
           </div>
 
         </div>
@@ -114,8 +114,6 @@
       </form>
 
     </div>
-
-
 
     </div>
 

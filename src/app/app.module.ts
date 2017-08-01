@@ -8,7 +8,7 @@ import { AppRoutingModule } from './app.routing.module';
 import { PaginaNaoEncontradaComponent } from './pagina-nao-encontrada/pagina-nao-encontrada.component';
 import { LoginComponent } from './login/login.component';
 import { HomeComponent } from './home/home.component';
-import { AppUtilService } from './util/app-util.service';
+import { LoginService } from './login/_service/login.service';
 
 
 @NgModule({
@@ -25,7 +25,7 @@ import { AppUtilService } from './util/app-util.service';
     ReactiveFormsModule,
     AppRoutingModule
   ],
-  providers: [AppUtilService],
+  providers: [LoginService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

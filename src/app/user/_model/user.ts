@@ -17,7 +17,7 @@ export class User {
   publisher: boolean;
   name: string;
   cpf: string;
-  rg: number;
+  rg: string;
   birth_date: string;
   lattes: string;
   about: string;
